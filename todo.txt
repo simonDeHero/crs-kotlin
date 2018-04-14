@@ -1,0 +1,69 @@
+- configurationproperties do not work ?
+
+- springfox is not compatible with webflux, so no reactive for now
+
+- for illegalArgExceptions build constraint violations, see
+    - bootstrap-rest-api for ConstraintViolationDto
+    - com.ninecookies.services.bootstrap.rest.exception.mapping.ValidationExceptionMapper
+
+- rest models are not immutable, they use var instead of val. reason is orika. with "val", orika does not know how to
+construct a model, as there is only a all-args-constructor. a custom factory could be registered with orika, but then
+the mapping would be implemented completely by hand, actually, and orika would be superfluous.
+    - so mapped manually for now
+
+- look through the java-"border" and understand better, how to handle the possibly nullable return-values by java?
+    - just use !! or handle them explicitly?
+
+- use real spring security instead of token filter with thread-local
+
+- tests with mock mvc and in memory service
+- tests against deployed service with spring feign generated java client
+    - just annotate interfaces or subclass them, specify URL in properties and use via SpEL, and in tests @EnableFeignClients
+    - use a subclass of feign.RequestInterceptor for authentication
+
+- how does mvn wrapper work? with intellij?
+    - no proper integration
+    - by commandline only :-(
+
+- kotlin throws an error on de-serialising from JSON if a non-null attribute is null. how to map that to a 400 ?
+    - is currently just a 500
+    - https://github.com/FasterXML/jackson-module-kotlin/issues/58
+    - https://stackoverflow.com/questions/49360740/disable-not-null-checks-in-kotlin
+
+
+
+ideas/how-tos:
+-----------------
+- kotlin and @Valid Spring annotation (https://stackoverflow.com/questions/36515094/kotlin-and-valid-spring-annotation)
+
+    Seems Spring needs these annotations to be applied to a field. But Kotlin will apply these annotations to the constructor parameter. Use field: specifier when applying an annotation to make it apply to a field. The following code should work fine for you.
+
+    class SomeInfo(
+        @field:NotNull
+        @field:Pattern(regexp = Constraints.EMAIL_REGEX)
+        var value: String
+    ) {
+        var id: Long? = null
+    }
+
+- https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/examples.md
+
+    Common pattern: Validation.
+
+    Such classes are not serializable, because they have constructor parameters which are not properties:
+
+    class Data(_a: Int) {
+        val a: Int = if ( _a >= 0) _a else throw IllegalArgumentException()
+    }
+
+    They can be easily refactored to be used with init blocks. init blocks in internal deserialization, unlike initialization expressions, are always executed after all variables have been set.
+
+    @Serializable
+    class Data(val a: Int) {
+        init {
+            check(a >= 0)
+        }
+    }
+
+
+
