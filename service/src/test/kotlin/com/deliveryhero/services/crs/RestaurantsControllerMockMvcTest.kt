@@ -1,9 +1,11 @@
 package com.deliveryhero.services.crs
 
+import com.deliveryhero.services.crs.api.Person
 import com.deliveryhero.services.crs.api.Token
 import com.deliveryhero.services.crs.auth.TokenFilter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,5 +58,89 @@ class RestaurantsControllerMockMvcTest {
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
         println(restaurantsResponse.andReturn().response.contentAsString)
+    }
+
+    @Test
+    fun testNullUsername_byType() {
+
+        val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/auth/form")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("password", password))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+
+        val responseBody = resultActions.andReturn().response.contentAsString
+        println("response: $responseBody")
+
+//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
+//        Assert.assertEquals("validation-error", error.message)
+    }
+
+    @Test
+    fun testCreatePerson() {
+
+        val person = Person("simon", "dr", 67)
+
+        val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jacksonObjectMapper().writeValueAsString(person)))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+
+        val responseBody = resultActions.andReturn().response.contentAsString
+        println(responseBody)
+
+        val createdPerson = jacksonObjectMapper().readValue<Person>(responseBody)
+        Assert.assertEquals(person.name, createdPerson.name)
+        Assert.assertEquals(person.title, createdPerson.title)
+        Assert.assertEquals(person.age, createdPerson.age)
+    }
+
+    @Test
+    fun testPersonNameNull_byType() {
+
+        val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""{"age":67}"""))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+
+        val responseBody = resultActions.andReturn().response.contentAsString
+        println("response: $responseBody")
+
+//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
+//        Assert.assertEquals("validation-error", error.message)
+    }
+
+    @Test
+    fun testPersonTitleNull_byAnnotation() {
+
+        val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""{"name":"simon", "age":67}"""))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+
+        val responseBody = resultActions.andReturn().response.contentAsString
+        println("response: $responseBody")
+
+//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
+//        Assert.assertEquals("validation-error", error.message)
+    }
+
+    @Test
+    fun testPersonAgeNegative_byAnnotation() {
+
+        val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""{"name":"simon", "title":"no-dr-:-(", "age":-1}"""))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+
+        val responseBody = resultActions.andReturn().response.contentAsString
+        println("response: $responseBody")
+
+//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
+//        Assert.assertEquals("validation-error", error.message)
     }
 }
