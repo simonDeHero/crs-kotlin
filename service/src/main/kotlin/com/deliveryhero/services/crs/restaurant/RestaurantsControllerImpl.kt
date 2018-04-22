@@ -20,11 +20,9 @@ class RestaurantsControllerImpl(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun map(legacyRestaurantInfo: LegacyRestaurantInfo): Restaurant {
-        return LegacyRestaurantInfo2RestaurantMapper.map(legacyRestaurantInfo)
-    }
+    private fun map(legacyRestaurantInfo: LegacyRestaurantInfo): Restaurant =
+        LegacyRestaurantInfo2RestaurantMapper.map(legacyRestaurantInfo)
 
-    private fun map(legacyRestaurantsInfos: List<LegacyRestaurantInfo>): List<Restaurant> {
-        return legacyRestaurantsInfos.stream().map { map(it) }.collect(Collectors.toList())
-    }
+    private fun map(legacyRestaurantsInfos: List<LegacyRestaurantInfo>): List<Restaurant> =
+        legacyRestaurantsInfos.stream().map { map(it) }.collect(Collectors.toList())
 }
