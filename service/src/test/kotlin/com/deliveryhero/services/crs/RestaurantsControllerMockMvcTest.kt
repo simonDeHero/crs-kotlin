@@ -1,8 +1,12 @@
 package com.deliveryhero.services.crs
 
+import com.deliveryhero.services.crs.api.Error
 import com.deliveryhero.services.crs.api.Person
 import com.deliveryhero.services.crs.api.Token
 import com.deliveryhero.services.crs.auth.TokenFilter
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.Assert
@@ -32,11 +36,14 @@ class RestaurantsControllerMockMvcTest {
     @Value("\${password}") private lateinit var password: String
 
     private lateinit var mvc: MockMvc
+    private lateinit var objectMapper: ObjectMapper
 
     @Before
     fun setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(this.context)
                 .addFilters<DefaultMockMvcBuilder>(TokenFilter()).build()
+        // https://github.com/FasterXML/jackson-module-kotlin !!!
+        objectMapper = jacksonObjectMapper().registerModules(Jdk8Module(), JavaTimeModule())
     }
 
     @Test
@@ -49,8 +56,7 @@ class RestaurantsControllerMockMvcTest {
                 .param("password", password))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
-        // https://github.com/FasterXML/jackson-module-kotlin !!!
-        val token = jacksonObjectMapper().readValue<Token>(tokenResponse.andReturn().response.contentAsString)
+        val token = objectMapper.readValue<Token>(tokenResponse.andReturn().response.contentAsString)
 
         val restaurantsResponse = mvc.perform(MockMvcRequestBuilders.get("/api/1/restaurants")
                 .accept(MediaType.APPLICATION_JSON)
@@ -72,8 +78,8 @@ class RestaurantsControllerMockMvcTest {
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
-//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
-//        Assert.assertEquals("validation-error", error.message)
+        val error = objectMapper.readValue<Error>(responseBody)
+        Assert.assertEquals("validation-error", error.message)
     }
 
     @Test
@@ -84,13 +90,13 @@ class RestaurantsControllerMockMvcTest {
         val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jacksonObjectMapper().writeValueAsString(person)))
+                .content(objectMapper.writeValueAsString(person)))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
         val responseBody = resultActions.andReturn().response.contentAsString
         println(responseBody)
 
-        val createdPerson = jacksonObjectMapper().readValue<Person>(responseBody)
+        val createdPerson = objectMapper.readValue<Person>(responseBody)
         Assert.assertEquals(person.name, createdPerson.name)
         Assert.assertEquals(person.title, createdPerson.title)
         Assert.assertEquals(person.age, createdPerson.age)
@@ -108,8 +114,8 @@ class RestaurantsControllerMockMvcTest {
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
-//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
-//        Assert.assertEquals("validation-error", error.message)
+        val error = objectMapper.readValue<Error>(responseBody)
+        Assert.assertEquals("validation-error", error.message)
     }
 
     @Test
@@ -124,8 +130,8 @@ class RestaurantsControllerMockMvcTest {
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
-//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
-//        Assert.assertEquals("validation-error", error.message)
+        val error = objectMapper.readValue<Error>(responseBody)
+        Assert.assertEquals("validation-error", error.message)
     }
 
     @Test
@@ -140,7 +146,7 @@ class RestaurantsControllerMockMvcTest {
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
-//        val error = jacksonObjectMapper().readValue<Error>(responseBody)
-//        Assert.assertEquals("validation-error", error.message)
+        val error = objectMapper.readValue<Error>(responseBody)
+        Assert.assertEquals("validation-error", error.message)
     }
 }

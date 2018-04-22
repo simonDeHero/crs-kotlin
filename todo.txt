@@ -15,6 +15,3 @@ the mapping would be implemented completely by hand, actually, and orika would b
     - just use !! or handle them explicitly?
 
 - use real spring security instead of token filter with thread-local
-
-- error in tests on de-serializing an Error, e.g. "val error = jacksonObjectMapper().readValue<Error>(responseBody)"
-    - cannot read UTC string format of a Instant
