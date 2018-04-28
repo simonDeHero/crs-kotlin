@@ -16,9 +16,8 @@ the mapping would be implemented completely by hand, actually, and orika would b
 
 - use real spring security instead of token filter with thread-local
 
-- let the CRS java tests run against the kotlin crs with spring-boot-maven-plugin
-
-- a integration test, which does NOT start the application by itself, but just executes the tests against a already started service
+- a integration test with spring-boot-maven-plugin, which does NOT start the application by itself, but just executes
+the tests against a already started service
 
 - static code analysis with PMD, checkstyle and findbugs for kotlin?
 
