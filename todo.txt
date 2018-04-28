@@ -17,3 +17,10 @@ the mapping would be implemented completely by hand, actually, and orika would b
 - use real spring security instead of token filter with thread-local
 
 - let the CRS java tests run against the kotlin crs with spring-boot-maven-plugin
+
+- a integration test, which does NOT start the application by itself, but just executes the tests against a already started service
+
+- static code analysis with PMD, checkstyle and findbugs for kotlin?
+
+- check nullability of attributes of delivery and nested objects. sometimes in tests, some attribute is just set to "null",
+which may not be the case in production, e.g. delivery.orderitem.remoteCode

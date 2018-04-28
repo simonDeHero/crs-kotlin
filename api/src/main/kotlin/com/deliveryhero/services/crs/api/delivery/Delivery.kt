@@ -36,5 +36,5 @@ data class Delivery(
         val canDelay: Boolean,
         val smsSent: Sms? = null,
         val corporate: Boolean,
-        val shortCode: String
+        val shortCode: String? = null
 )

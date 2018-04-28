@@ -11,7 +11,5 @@ import javax.validation.Valid
 @RequestMapping(PersonController.PATH)
 class PersonControllerImpl: PersonController {
 
-    override fun create(@RequestBody @Valid person: Person): Person {
-        return person
-    }
+    override fun create(@RequestBody @Valid person: Person) = person
 }

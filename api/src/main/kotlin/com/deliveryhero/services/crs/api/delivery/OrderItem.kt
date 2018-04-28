@@ -32,7 +32,7 @@ data class OrderItem(
         /**
          * The remote code (a.k.a. "item code")
          */
-        val remoteCode: String,
+        val remoteCode: String? = null,
         /**
          * A optional comment to this item by the customer.
          */

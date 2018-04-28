@@ -27,10 +27,10 @@ class RestaurantsControllerInMemoryFeignTest {
         @Bean fun feignAuthInterceptor(): FeignAuthInterceptor = FeignAuthInterceptor()
     }
 
-    @FeignClient(name = "authControllerClient", url = "\${crs.url}:\${crs.port}", path = AuthController.PATH)
+    @FeignClient(name = "authControllerClient", url = "\${crs.url}:\${crs.port}/crs", path = AuthController.PATH)
     interface AuthControllerClient: AuthController
 
-    @FeignClient(name = "restaurantsControllerClient", url = "\${crs.url}:\${crs.port}", path = RestaurantsController.PATH)
+    @FeignClient(name = "restaurantsControllerClient", url = "\${crs.url}:\${crs.port}/crs", path = RestaurantsController.PATH)
     interface RestaurantsControllerClient: RestaurantsController
 
     @Value("\${username}") private lateinit var username: String

@@ -86,7 +86,7 @@ public class AuthResourceIT extends AbstractRestaurantProvidingRestTest {
 
         assertResponseContract(authResource, LOGIN_SUCCESSFUL_RESPONSE_CONTRACT);
     }
-//
+
 //    @Test
 //    public void testLoginPossibleWithCorrectCredentialsViaFormParams() {
 //

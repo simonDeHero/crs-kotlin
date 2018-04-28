@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.mapping
+package com.deliveryhero.services.crs.restaurant
 
 import com.deliveryhero.services.crs.api.restaurant.Address
 import com.deliveryhero.services.crs.api.delivery.Currency

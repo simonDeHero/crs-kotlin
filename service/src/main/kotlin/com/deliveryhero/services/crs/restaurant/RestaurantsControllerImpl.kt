@@ -2,7 +2,6 @@ package com.deliveryhero.services.crs.restaurant
 
 import com.deliveryhero.services.crs.api.restaurant.Restaurant
 import com.deliveryhero.services.crs.api.restaurant.RestaurantsController
-import com.deliveryhero.services.crs.mapping.LegacyRestaurantInfo2RestaurantMapper
 import com.deliveryhero.services.legacy.webkick.api.LegacyRestaurantInfo
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

@@ -8,7 +8,7 @@ data class Transport(
         val transportJobId: String? = null,
         val driverId: String? = null,
         val driverName: String? = null,
-        val pickupTime: Instant,
+        val pickupTime: Instant? = null,
         val dispatchedAt: Instant? = null,
         val deliveredAt: Instant? = null,
         val cancelReason: TransportCancelReason? = null

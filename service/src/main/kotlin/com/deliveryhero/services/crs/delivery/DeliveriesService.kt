@@ -37,9 +37,12 @@ class DeliveriesService(webkickApiFactory: WebkickApiFactory) {
 
     fun getNewDeliveriesIds(): List<String> {
 
-        // TODO check if "null" can be returned in the first place
         val newDeliveryResult = operatorApi.checkForDeliveries(null)
-        return extractNewDeliveryIds(newDeliveryResult!!)
+        return if (newDeliveryResult == null) {
+            listOf()
+        } else {
+            extractNewDeliveryIds(newDeliveryResult)
+        }
     }
 
     private fun extractNewDeliveryIds(newDeliveryResult: NewDeliveryResult): List<String> {

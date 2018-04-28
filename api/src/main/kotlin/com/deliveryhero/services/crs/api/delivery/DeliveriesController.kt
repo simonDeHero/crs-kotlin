@@ -5,7 +5,7 @@ import io.swagger.annotations.*
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.PathVariable
 
 @Api(value = DeliveriesController.PATH, description = "This is the deliveries resource that allows to manage deliveries.")
 interface DeliveriesController {
@@ -49,7 +49,7 @@ interface DeliveriesController {
     @GetMapping(path = ["{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getDeliveryById(
             @ApiParam(value = "id of the delivery", required = true)
-            @RequestParam
+            @PathVariable
             id: String
     ): Delivery
 }

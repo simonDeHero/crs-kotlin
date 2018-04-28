@@ -3,7 +3,7 @@ package com.deliveryhero.services.crs.api.restaurant
 import com.deliveryhero.services.crs.api.Error
 import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.PathVariable
 
 //@FeignClient(name = "restaurantsControllerClient", url = "\${crs.url}:\${crs.port}", path = RestaurantsController.PATH)
 @Api(value = RestaurantsController.PATH,
@@ -52,7 +52,7 @@ interface RestaurantsController {
     @GetMapping(path = ["{id}"])
     fun getById(
             @ApiParam(value = "the icash restaurant id", required = true)
-            @RequestParam
+            @PathVariable
             id: String
     ): Restaurant
 }
