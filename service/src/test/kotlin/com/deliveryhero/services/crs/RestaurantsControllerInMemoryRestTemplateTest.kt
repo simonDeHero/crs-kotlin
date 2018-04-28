@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs
 
-import com.deliveryhero.services.crs.api.Token
+import com.deliveryhero.services.crs.api.auth.Token
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired

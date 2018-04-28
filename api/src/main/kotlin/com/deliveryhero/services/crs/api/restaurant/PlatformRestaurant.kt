@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.restaurant
 
 import io.swagger.annotations.ApiModelProperty
 

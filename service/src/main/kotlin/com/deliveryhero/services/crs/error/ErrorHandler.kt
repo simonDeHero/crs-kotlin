@@ -18,7 +18,7 @@ class ErrorHandler {
 
     /*
     when a endpoint method is called with "null" value for a non-null type parameter, e.g.
-    com.deliveryhero.services.crs.api.AuthController.login
+    com.deliveryhero.services.crs.api.auth.AuthController.login
      */
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgumentException(e: IllegalArgumentException, httpServletRequest: HttpServletRequest):

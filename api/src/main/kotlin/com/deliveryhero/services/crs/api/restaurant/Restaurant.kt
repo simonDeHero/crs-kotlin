@@ -1,5 +1,6 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.restaurant
 
+import com.deliveryhero.services.crs.api.delivery.Currency
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.annotations.ApiModelProperty
 import java.util.*

@@ -1,5 +1,6 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.restaurant
 
+import com.deliveryhero.services.crs.api.Error
 import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,6 +14,11 @@ interface RestaurantsController {
         const val PATH = "api/1/restaurants"
     }
 
+    /*
+     TODO
+     - etag,
+     - service authentication in @ApiImplicitParam, i.e. Authorization "Bearer &#x3C;token&#x3E;" or "CRS-HMAC &#x3C;values&#x3E;"
+     */
     @ApiOperation(value = """
         Lists the available restaurants for the current authenticated user. The list only contains basic information
         like name and address and does not provide more complex fields like: "contractPlan" or "featureFlags".""")
@@ -27,6 +33,11 @@ interface RestaurantsController {
     @GetMapping
     fun getAll(): List<Restaurant>
 
+    /*
+     TODO
+     - etag,
+     - service authentication in @ApiImplicitParam, i.e. Authorization "Bearer &#x3C;token&#x3E;" or "CRS-HMAC &#x3C;values&#x3E;"
+     */
     @ApiOperation(value = "Gets the restaurant data for the given id.")
     @ApiResponses(value = [
         (ApiResponse(code = 200, message = "Success", response = Restaurant::class)),

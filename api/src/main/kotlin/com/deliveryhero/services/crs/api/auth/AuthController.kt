@@ -1,5 +1,6 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.auth
 
+import com.deliveryhero.services.crs.api.Error
 import io.swagger.annotations.*
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping

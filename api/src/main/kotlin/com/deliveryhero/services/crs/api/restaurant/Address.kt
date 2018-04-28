@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.restaurant
 
 import com.ninecookies.common.model.Iso3166Alpha2Code
 import io.swagger.annotations.ApiModelProperty
@@ -11,15 +11,15 @@ data class Address(
             The street including the street number. (deprecated, use 'streetName' and 'building' instead)""",
                 required = true, readOnly = true, allowEmptyValue = false,
                 example = "Block 2, Abdul Malik Bin Marwan St")
-        val street: String?,
+        val street: String? = null,
 
         @ApiModelProperty(notes = "The postal code.", required = false, readOnly = true, allowEmptyValue = true,
                 example = "00965")
-        val zipCode: String?,
+        val zipCode: String? = null,
 
         @ApiModelProperty(notes = "The city name.", required = false, readOnly = true, allowEmptyValue = true,
                 example = "Abu Halifa")
-        val city: String?,
+        val city: String? = null,
 
         @ApiModelProperty(notes = "The country name in human readable format.", readOnly = true,
                 allowEmptyValue = false, required = true, example = "Kuwait")
@@ -32,11 +32,11 @@ data class Address(
 
         @ApiModelProperty(notes = "The name of the street.", required = true, readOnly = true, allowEmptyValue = true,
                 example = "Abdul Malik Bin Marwan St")
-        val streetName: String?,
+        val streetName: String? = null,
 
         @ApiModelProperty(notes = "The identifier of the building (e.g. in germany it would be the street number).",
                 readOnly = true, allowEmptyValue = true, required = true, example = "Block 2")
-        val building: String?,
+        val building: String? = null,
 
         @ApiModelProperty(notes = "The geo location latitude ([-90, 90]).", required = true, readOnly = true,
                 allowEmptyValue = false, example = "52.52469869999999")

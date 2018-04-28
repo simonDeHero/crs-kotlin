@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.delivery
 
 import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.Min

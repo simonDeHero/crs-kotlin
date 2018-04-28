@@ -10,6 +10,7 @@
     <modules>
         <module>service</module>
         <module>api</module>
+        <module>it</module>
     </modules>
 
     <parent>

@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.auth
 
 import io.swagger.annotations.ApiModelProperty
 

@@ -2,7 +2,7 @@ package com.deliveryhero.services.crs
 
 import com.deliveryhero.services.crs.api.Error
 import com.deliveryhero.services.crs.api.Person
-import com.deliveryhero.services.crs.api.Token
+import com.deliveryhero.services.crs.api.auth.Token
 import com.deliveryhero.services.crs.auth.TokenFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module

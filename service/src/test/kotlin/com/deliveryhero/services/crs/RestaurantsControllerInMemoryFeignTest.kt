@@ -1,7 +1,7 @@
 package com.deliveryhero.services.crs
 
-import com.deliveryhero.services.crs.api.AuthController
-import com.deliveryhero.services.crs.api.RestaurantsController
+import com.deliveryhero.services.crs.api.auth.AuthController
+import com.deliveryhero.services.crs.api.restaurant.RestaurantsController
 import com.deliveryhero.services.crs.util.FeignAuthInterceptor
 import com.deliveryhero.services.crs.util.RequestToken
 import org.junit.Test

@@ -1,9 +1,9 @@
 package com.deliveryhero.services.crs.mapping
 
-import com.deliveryhero.services.crs.api.Address
-import com.deliveryhero.services.crs.api.Currency
-import com.deliveryhero.services.crs.api.PlatformRestaurant
-import com.deliveryhero.services.crs.api.Restaurant
+import com.deliveryhero.services.crs.api.restaurant.Address
+import com.deliveryhero.services.crs.api.delivery.Currency
+import com.deliveryhero.services.crs.api.restaurant.PlatformRestaurant
+import com.deliveryhero.services.crs.api.restaurant.Restaurant
 import com.deliveryhero.services.legacy.webkick.api.*
 import com.ninecookies.common.model.Iso3166Alpha2Code
 import java.util.stream.Collectors

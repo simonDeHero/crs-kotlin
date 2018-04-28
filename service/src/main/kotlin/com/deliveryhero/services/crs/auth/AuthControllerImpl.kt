@@ -1,7 +1,7 @@
 package com.deliveryhero.services.crs.auth
 
-import com.deliveryhero.services.crs.api.AuthController
-import com.deliveryhero.services.crs.api.Token
+import com.deliveryhero.services.crs.api.auth.AuthController
+import com.deliveryhero.services.crs.api.auth.Token
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 

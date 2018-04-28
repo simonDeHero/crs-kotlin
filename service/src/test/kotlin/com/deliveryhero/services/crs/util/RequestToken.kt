@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs.util
 
-import com.deliveryhero.services.crs.api.Token
+import com.deliveryhero.services.crs.api.auth.Token
 
 object RequestToken {
 

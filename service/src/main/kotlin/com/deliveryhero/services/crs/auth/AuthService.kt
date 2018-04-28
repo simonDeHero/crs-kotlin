@@ -1,12 +1,11 @@
 package com.deliveryhero.services.crs.auth
 
-import com.deliveryhero.services.crs.api.Token
+import com.deliveryhero.services.crs.api.auth.Token
 import com.deliveryhero.services.crs.error.AuthenticationException
 import com.deliveryhero.services.crs.webkick.WebkickApiFactory
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import java.lang.IllegalStateException
 
 private const val SESSION_COOKIE: String = "SESSION9C"
 
