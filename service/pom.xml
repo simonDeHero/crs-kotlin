@@ -11,6 +11,8 @@
 
     <artifactId>crs-service-kt</artifactId>
 
+    <packaging>war</packaging>
+
     <properties>
         <springfox.version>2.8.0</springfox.version>
         <webkick-api.version>2.3.1-SNAPSHOT</webkick-api.version>
@@ -57,6 +59,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

@@ -11,6 +11,10 @@
 
     <artifactId>crs-it-kt</artifactId>
 
+    <properties>
+        <skipTests>false</skipTests>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -36,6 +40,74 @@
             <version>6.10</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.deliveryhero.services.crs</groupId>
+            <artifactId>crs-service-kt</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.16</version>
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                    <container>
+                        <containerId>tomcat8x</containerId>
+                        <output>${project.build.directory}/server.log</output>
+                        <log>${project.build.directory}/cargo.log</log>
+                        <append>true</append>
+                    </container>
+                    <deployables>
+                        <deployable>
+                            <groupId>com.deliveryhero.services.crs</groupId>
+                            <artifactId>crs-service-kt</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>crs</context>
+                            </properties>
+                            <pingURL>http://127.0.0.1:8080/crs/api/1/status</pingURL>
+                        </deployable>
+                    </deployables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
