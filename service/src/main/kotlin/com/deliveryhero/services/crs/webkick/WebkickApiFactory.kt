@@ -18,8 +18,7 @@ import javax.ws.rs.core.Cookie
 import javax.ws.rs.core.HttpHeaders
 
 @Service
-class WebkickApiFactory(
-        @Value("\${crs.webkick.domain}") private var webkickDomain: String) {
+class WebkickApiFactory(@Value("\${crs.webkick.domain}") private var webkickDomain: String) {
 
     lateinit var operatorApi: WebkickOperatorApi
 
@@ -30,7 +29,7 @@ class WebkickApiFactory(
     private fun createOperatorApi(clientConfig: ClientConfig): WebkickOperatorApi =
             WebResourceFactory.newResource(WebkickOperatorApi::class.java,
                     ClientBuilder.newClient(clientConfig).target(webkickDomain)
-                            .register(ClientRequestFilter() {
+                            .register(ClientRequestFilter {
                                 val sessionCookie = Cookie(WebkickOperatorApi.COOKIE_KEY, RequestToken.get())
                                 it.headers.add(HttpHeaders.COOKIE, sessionCookie)
                             }))

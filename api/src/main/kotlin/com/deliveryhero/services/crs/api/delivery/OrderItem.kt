@@ -36,7 +36,7 @@ data class OrderItem(
         /**
          * A optional comment to this item by the customer.
          */
-        val comment: String? = null,
+        var comment: String? = null,
         //public String shortName;
         /**
          * The price for a single unit of this item.
@@ -50,5 +50,5 @@ data class OrderItem(
         /**
          * Modifications for this item, e.g. additional sauce or cheese.
          */
-        val modifiers: List<OrderItem>? = null
+        var modifiers: MutableList<OrderItem>? = null
 )

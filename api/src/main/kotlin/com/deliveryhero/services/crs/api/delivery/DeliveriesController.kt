@@ -3,9 +3,9 @@ package com.deliveryhero.services.crs.api.delivery
 import com.deliveryhero.services.crs.api.Error
 import io.swagger.annotations.*
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
-import javax.websocket.server.PathParam
 
 @Api(value = DeliveriesController.PATH, description = "This is the deliveries resource that allows to manage deliveries.")
 interface DeliveriesController {
@@ -31,7 +31,7 @@ interface DeliveriesController {
     @ApiImplicitParam(name = "authorization", value = "Authorization token", required = true, dataType = "string",
             paramType = "header", example = "'Bearer <token>'")
     @GetMapping(path = ["ids/new"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getNewDeliveriesIds(): List<String>
+    fun getNewDeliveriesIds(): ResponseEntity<List<String>>
 
     /*
      TODO

@@ -8,5 +8,5 @@ data class Customer(
         val lastName: String? = null,
         val language: String? = null,
         val company: String? = null,
-        val email: String? = null
+        val email: String = ""
 )

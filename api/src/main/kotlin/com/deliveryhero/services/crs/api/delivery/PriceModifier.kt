@@ -11,5 +11,6 @@ data class PriceModifier(
         /**
          * The amount by how much the total is modified. This value will be applied to the total with "+"!
          */
-        val value: BigDecimal
+        val value: BigDecimal,
+        val includedInPrice: Boolean = true
 )

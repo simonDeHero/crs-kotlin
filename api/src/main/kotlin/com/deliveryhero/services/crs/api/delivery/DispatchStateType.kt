@@ -37,5 +37,6 @@ enum class DispatchStateType : HashableEnum<DispatchStateType> {
     /**
      * =5
      */
-    CANCELLED
+    CANCELLED,
+    UNKNOWN
 }

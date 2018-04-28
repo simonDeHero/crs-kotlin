@@ -66,5 +66,6 @@ enum class DeliveryStateType : HashableEnum<DeliveryStateType> {
      * Delivery was cancelled by the transport provider.
      * =11
      */
-    CANCELLED_BY_TRANSPORT
+    CANCELLED_BY_TRANSPORT,
+    UNKNOWN
 }

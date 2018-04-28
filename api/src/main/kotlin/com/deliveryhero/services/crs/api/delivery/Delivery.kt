@@ -4,11 +4,11 @@ import java.time.Instant
 import java.util.LinkedHashSet
 
 data class Delivery(
+        val id: String,
         val timestamp: Instant,
         val state: DeliveryStateType,
         val dispatchStateType: DispatchStateType = DispatchStateType.UNDEFINED,
         val trackingStateType: TrackingStateType = TrackingStateType.NOT_TRACKED,
-        val restaurantId: String,
         val deliveryPlatform: String,
         val externalRestaurantId: String,
         val externalId: String,
@@ -18,7 +18,7 @@ data class Delivery(
         val transport: Transport,
         val allowedAcceptTimes: LinkedHashSet<Int>?,
         val seenAt: Instant? = null,
-        val deliverAt: Instant,
+        val deliverAt: Instant? = null,
         val expiresAt: Instant,
         val acceptedAt: Instant? = null,
         val customer: Customer,

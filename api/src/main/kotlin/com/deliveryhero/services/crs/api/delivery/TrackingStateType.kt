@@ -29,5 +29,6 @@ enum class TrackingStateType : HashableEnum<TrackingStateType> {
     /**
      * The order was cancelled.
      */
-    CANCELLED
+    CANCELLED,
+    UNKNOWN
 }
