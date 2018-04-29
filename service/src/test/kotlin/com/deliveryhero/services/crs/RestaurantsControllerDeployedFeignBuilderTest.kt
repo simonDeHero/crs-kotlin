@@ -13,19 +13,24 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import feign.Feign
-import org.junit.Ignore
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.cloud.openfeign.FeignClientsConfiguration
-import org.springframework.context.annotation.Import
+import org.springframework.test.context.ContextConfiguration
 
 @RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource("classpath:application-test.properties", properties = ["server.port=\${crs.port}"])
-@Import(FeignClientsConfiguration::class)
-class RestaurantsControllerInMemoryFeignBuilderTest {
+@TestPropertySource("classpath:application-test.properties")
+@ContextConfiguration(classes = [FeignClientsConfiguration::class])
+/*
+@WebMvcTest needed, otherwise:
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type
+'org.springframework.boot.autoconfigure.http.HttpMessageConverters' available: expected at least 1 bean which qualifies as
+autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+ */
+@WebMvcTest
+class RestaurantsControllerDeployedFeignBuilderTest {
 
     @Value("\${username}") private lateinit var username: String
     @Value("\${password}") private lateinit var password: String
@@ -33,15 +38,14 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
     @Value("\${crs.port}") private lateinit var port: String
     @Value("\${crs.url}") private lateinit var url: String
 
-    @Autowired private lateinit var authController: AuthController
-    @Autowired private lateinit var restaurantsController: RestaurantsController
+    private lateinit var authController: AuthController
+    private lateinit var restaurantsController: RestaurantsController
 
     @Autowired private lateinit var decoder: Decoder
     @Autowired private lateinit var encoder: Encoder
-    @Autowired private lateinit var client: Client
+    private var client: Client = Client.Default(null, null)
     @Autowired private lateinit var contract: Contract
 
-    // for @BeforeClass, see https://stackoverflow.com/questions/35554076/how-do-i-manage-unit-test-resources-in-kotlin-such-as-starting-stopping-a-datab
     @Before
     fun setupFeignClients() {
 
@@ -50,23 +54,17 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
                 .decoder(decoder)
                 .contract(contract)
 
-        authController = builder.target<AuthController>(AuthController::class.java, url + ":" + port)
+        //complete endpoint paths are needed here, when setting up manually
+        authController = builder.target<AuthController>(AuthController::class.java,
+                url + ":" + port + "/crs/" + AuthController.PATH)
         restaurantsController = builder
                 .requestInterceptor(FeignAuthInterceptor())
-                .target<RestaurantsController>(RestaurantsController::class.java, url + ":" + port)
+                .target<RestaurantsController>(RestaurantsController::class.java,
+                        url + ":" + port + "/crs/" + RestaurantsController.PATH)
     }
 
-    @Ignore // does not work due to error below. how to "exclude" ribbon's loadbalancer client?
     @Test
     fun testLoginAndGetRestaurants() {
-
-        /*
-        at org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient.execute
-        ....
-        Caused by: com.netflix.client.ClientException: Load balancer does not have available server for client: localhost
-            at com.netflix.loadbalancer.LoadBalancerContext.getServerFromLoadBalancer(LoadBalancerContext.java:483)
-            at com.netflix.loadbalancer.reactive.LoadBalancerCommand$1.call(LoadBalancerCommand.java:184)
-         */
 
         val token = authController.login(username, password)
         RequestToken.set(token)
