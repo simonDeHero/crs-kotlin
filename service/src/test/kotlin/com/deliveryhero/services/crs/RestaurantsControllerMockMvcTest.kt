@@ -64,6 +64,12 @@ class RestaurantsControllerMockMvcTest {
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
         println(restaurantsResponse.andReturn().response.contentAsString)
+
+        // get cached value
+        mvc.perform(MockMvcRequestBuilders.get("/api/1/restaurants")
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token.token))
+                .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
     @Test

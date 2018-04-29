@@ -4,6 +4,7 @@ import com.deliveryhero.services.crs.webkick.WebkickApiFactory
 import com.deliveryhero.services.legacy.webkick.api.LegacyRestaurantInfo
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
 import com.google.common.collect.ImmutableList
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +12,7 @@ class RestaurantService(webkickApiFactory: WebkickApiFactory) {
 
     private var operatorApi: WebkickOperatorApi = webkickApiFactory.operatorApi
 
+    @Cacheable(value = ["restaurants"], keyGenerator = "restaurantsCacheKeyGenerator", cacheManager = "restaurantsCacheManager")
     fun getAll(): List<LegacyRestaurantInfo> {
 
         val legacyRestaurantInfo = operatorApi.getRestaurantInfo(null);
