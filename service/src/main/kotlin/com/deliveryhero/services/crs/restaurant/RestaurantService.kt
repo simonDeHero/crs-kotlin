@@ -12,6 +12,7 @@ class RestaurantService(webkickApiFactory: WebkickApiFactory) {
 
     private var operatorApi: WebkickOperatorApi = webkickApiFactory.operatorApi
 
+    // "restaurants" is used as prefix. maybe constant in RestaurantsCacheKeyGenerator?
     @Cacheable(value = ["restaurants"], keyGenerator = "restaurantsCacheKeyGenerator", cacheManager = "restaurantsCacheManager")
     fun getAll(): List<LegacyRestaurantInfo> {
 

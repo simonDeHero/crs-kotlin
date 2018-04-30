@@ -15,6 +15,7 @@ the mapping would be implemented completely by hand, actually, and orika would b
     - just use !! or handle them explicitly?
 
 - use real spring security instead of token filter with thread-local
+    - use annotation-based caching
 
 - a integration test with spring-boot-maven-plugin, which does NOT start the application by itself, but just executes
 the tests against a already started service
@@ -22,7 +23,8 @@ the tests against a already started service
     - does not start a web context
     - pipeline with spring-boot-maven-plugin started in maven integration test phase still missing though
 
-- static code analysis with PMD, checkstyle and findbugs for kotlin?
+- static code analysis with PMD, checkstyle and findbugs for kotlin
+    - should be same as in java, as those tools work on bytecode and abstract syntax tree
 
 - check nullability of attributes of delivery and nested objects. sometimes in tests, some attribute is just set to "null",
 which may not be the case in production, e.g. delivery.orderitem.remoteCode
