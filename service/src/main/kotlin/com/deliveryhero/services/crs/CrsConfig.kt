@@ -31,6 +31,10 @@ class CrsConfig {
     @Value("\${cache.restaurants.ttlmins:10}")
     private var restaurantsCacheTtlMins: Long = 0L // ugly...
 
+    /*
+    http://localhost:8080/crs/v2/api-docs
+    http://localhost:8080/crs/swagger-ui.html
+     */
     @Bean
     fun docket() =
             Docket(DocumentationType.SWAGGER_2)
