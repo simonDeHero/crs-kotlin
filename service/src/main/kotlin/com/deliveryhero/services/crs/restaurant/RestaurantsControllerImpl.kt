@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(RestaurantsController.PATH)
 class RestaurantsControllerImpl(private val restaurantService: RestaurantService): RestaurantsController {
 
-    override fun getAll() = map(restaurantService.getAll())
+    override fun getAll() = map(restaurantService.getAll(null))
 
     override fun getById(id: String): Restaurant {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

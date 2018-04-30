@@ -5,12 +5,15 @@ import com.deliveryhero.services.crs.error.AuthenticationException
 import com.deliveryhero.services.crs.webkick.WebkickApiFactory
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-
-private const val SESSION_COOKIE: String = "SESSION9C"
 
 @Service
 class AuthService(webkickApiFactory: WebkickApiFactory) {
+
+    companion object {
+        private const val SESSION_COOKIE: String = "SESSION9C"
+    }
 
     private var operatorApi: WebkickOperatorApi = webkickApiFactory.operatorApi
 
@@ -24,5 +27,16 @@ class AuthService(webkickApiFactory: WebkickApiFactory) {
         }
 
         return Token(loginResponse.cookies[SESSION_COOKIE]!!.value)
+    }
+
+    fun getUserDetails(): UserDetails {
+
+        val authentication = SecurityContextHolder.getContext().authentication
+
+        if (authentication.details !is UserDetails) {
+            throw IllegalStateException("Unsupported authentication details: " + authentication.details)
+        }
+
+        return authentication.details as UserDetails
     }
 }
