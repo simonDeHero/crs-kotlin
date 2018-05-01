@@ -31,5 +31,5 @@ data class Error(
 
         @ApiModelProperty(notes = "The constraint violations that caused this error if available.", readOnly = true,
                 allowEmptyValue = true)
-        val constraintViolations: List<*>?
+        val constraintViolations: Set<*>?
 )

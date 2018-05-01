@@ -87,60 +87,64 @@ public class AuthResourceIT extends AbstractRestaurantProvidingRestTest {
         assertResponseContract(authResource, LOGIN_SUCCESSFUL_RESPONSE_CONTRACT);
     }
 
-//    @Test
-//    public void testLoginPossibleWithCorrectCredentialsViaFormParams() {
-//
-//        AuthResource authResource = unAuthenticatedService.getAuthentication();
-//        authResource.login(credentials.getUsername(), credentials.getPassword());
-//
-//        assertResponseContract(authResource, LOGIN_SUCCESSFUL_RESPONSE_CONTRACT);
-//    }
-//
-//    @DataProvider
-//    public Object[][] wrongUsernamePasswordCredentials() {
-//        return new Object[][] {
-//                new Object[] { new UsernamePasswordCredentials("foo", "bar") },
-//                new Object[] { new UsernamePasswordCredentials(credentials.getUsername(), "bar") },
-//                new Object[] { new UsernamePasswordCredentials("foo", credentials.getPassword()) }
-//        };
-//    }
-//
-//    @Test(dataProvider = "wrongUsernamePasswordCredentials")
-//    public void testWrongUsernameOrPasswordResultsInUnauthorized(UsernamePasswordCredentials wrongCredentials) {
-//
-//        AuthResource authResource = unAuthenticatedService.getAuthentication();
-//
-//        assertThrows(() -> authResource.login(wrongCredentials));
-//        assertResponseContract(authResource, AUTH_ERROR_OCCURRED_RESPONSE_CONTRACT);
-//    }
-//
-//    @DataProvider
-//    public Object[][] nullEmptyUsernamePasswordCredentials() {
-//        return new Object[][] {
-//                { new UsernamePasswordCredentials(null, null), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("username"), ViolationDescriptor.notEmpty("password") } },
-//                { new UsernamePasswordCredentials(credentials.getUsername(), null), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("password") } },
-//                { new UsernamePasswordCredentials(null, credentials.getPassword()), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("username") } },
-//                { new UsernamePasswordCredentials("", ""), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("username", ""), ViolationDescriptor.notEmpty("password", "") } },
-//                { new UsernamePasswordCredentials(credentials.getUsername(), ""), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("password", "") } },
-//                { new UsernamePasswordCredentials("", credentials.getPassword()), new ViolationDescriptor[] {
-//                        ViolationDescriptor.notEmpty("username", "") } }
-//        };
-//    }
-//
-//    @Test(dataProvider = "nullEmptyUsernamePasswordCredentials")
-//    public void testNoUsernameOrPasswordResultsInModelValidationError(UsernamePasswordCredentials nullCredentials,
-//            ViolationDescriptor[] expectedViolations) {
-//
-//        AuthResource authResource = unAuthenticatedService.getAuthentication();
-//
-//        assertThrows(() -> authResource.login(nullCredentials));
-//        assertModelViolationResponse(authResource, expectedViolations);
-//    }
+    @Test
+    public void testLoginPossibleWithCorrectCredentialsViaFormParams() {
+
+        AuthResource authResource = unAuthenticatedService.getAuthentication();
+        authResource.login(credentials.getUsername(), credentials.getPassword());
+
+        assertResponseContract(authResource, LOGIN_SUCCESSFUL_RESPONSE_CONTRACT);
+    }
+
+    @DataProvider
+    public Object[][] wrongUsernamePasswordCredentials() {
+        return new Object[][] {
+                new Object[] { new UsernamePasswordCredentials("foo", "bar") },
+                new Object[] { new UsernamePasswordCredentials(credentials.getUsername(), "bar") },
+                new Object[] { new UsernamePasswordCredentials("foo", credentials.getPassword()) }
+        };
+    }
+
+    @Test(dataProvider = "wrongUsernamePasswordCredentials")
+    public void testWrongUsernameOrPasswordResultsInUnauthorized(UsernamePasswordCredentials wrongCredentials) {
+
+        AuthResource authResource = unAuthenticatedService.getAuthentication();
+
+        assertThrows(() -> authResource.login(wrongCredentials));
+        assertResponseContract(authResource, AUTH_ERROR_OCCURRED_RESPONSE_CONTRACT);
+    }
+
+    @DataProvider
+    public Object[][] nullEmptyUsernamePasswordCredentials() {
+        return new Object[][] {
+                { new UsernamePasswordCredentials(null, null), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("username"),
+//                        ViolationDescriptor.notEmpty("password") // TODO ? kotlin stops checking at first constraint violation
+                } },
+                { new UsernamePasswordCredentials(credentials.getUsername(), null), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("password") } },
+                { new UsernamePasswordCredentials(null, credentials.getPassword()), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("username") } },
+                { new UsernamePasswordCredentials("", ""), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("username", ""),
+//                        ViolationDescriptor.notEmpty("password", "") // TODO ? kotlin stops checking at first constraint violation
+                } },
+                { new UsernamePasswordCredentials(credentials.getUsername(), ""), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("password", "") } },
+                { new UsernamePasswordCredentials("", credentials.getPassword()), new ViolationDescriptor[] {
+                        ViolationDescriptor.notEmpty("username", "") } }
+        };
+    }
+
+    @Test(dataProvider = "nullEmptyUsernamePasswordCredentials")
+    public void testNoUsernameOrPasswordResultsInModelValidationError(UsernamePasswordCredentials nullCredentials,
+            ViolationDescriptor[] expectedViolations) {
+
+        AuthResource authResource = unAuthenticatedService.getAuthentication();
+
+        assertThrows(() -> authResource.login(nullCredentials));
+        assertModelViolationResponse(authResource, expectedViolations);
+    }
 //
 //    @Test(dataProvider = "nullEmptyUsernamePasswordCredentials")
 //    public void testFormLoginWithNoUsernameOrPassword(UsernamePasswordCredentials nullCredentials,

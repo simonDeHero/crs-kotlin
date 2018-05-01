@@ -23,7 +23,7 @@ class AuthService(webkickApiFactory: WebkickApiFactory) {
 
         if (loginResponse.status != HttpStatus.FOUND.value() ||
                 !loginResponse.cookies.containsKey(SESSION_COOKIE)) {
-            throw AuthenticationException("invalid credentials")
+            throw AuthenticationException("An authentication error occured.")
         }
 
         return Token(loginResponse.cookies[SESSION_COOKIE]!!.value)

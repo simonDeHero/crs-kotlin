@@ -28,3 +28,12 @@ the tests against a already started service
 
 - check nullability of attributes of delivery and nested objects. sometimes in tests, some attribute is just set to "null",
 which may not be the case in production, e.g. delivery.orderitem.remoteCode
+
+- put constants and such stuff into companion object
+
+- add javadoc everywhere
+
+- complete REST docu
+
+- same non-null handling for query-params on logging as when using UsernamePasswordCredentials
+    - create test for it

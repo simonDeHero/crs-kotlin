@@ -12,9 +12,9 @@ data class UsernamePasswordCredentials(
         /**
          * The username.
          */
-        @NotBlank val username: String,
+        @get:NotBlank val username: String,
         /**
          * The password.
          */
-        @NotBlank val password: String
+        @get:NotBlank val password: String
 )
