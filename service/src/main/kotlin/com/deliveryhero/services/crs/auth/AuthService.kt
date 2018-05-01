@@ -4,6 +4,7 @@ import com.deliveryhero.services.crs.api.auth.Token
 import com.deliveryhero.services.crs.error.AuthenticationException
 import com.deliveryhero.services.crs.webkick.WebkickApiFactory
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
+import com.ninecookies.common.util.Assert
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -18,6 +19,10 @@ class AuthService(webkickApiFactory: WebkickApiFactory) {
     private var operatorApi: WebkickOperatorApi = webkickApiFactory.operatorApi
 
     fun login(username: String, password: String): Token {
+
+        //cannot be null, so check for empty only
+        Assert.notNullOrEmpty(username, "username")
+        Assert.notNullOrEmpty(password, "password")
 
         val loginResponse = operatorApi.login(username, password)
 

@@ -145,7 +145,19 @@ public class AuthResourceIT extends AbstractRestaurantProvidingRestTest {
         assertThrows(() -> authResource.login(nullCredentials));
         assertModelViolationResponse(authResource, expectedViolations);
     }
-//
+
+    // TODO newly added
+    @Test(dataProvider = "nullEmptyUsernamePasswordCredentials")
+    public void testFormLoginWithNoUsernameOrPassword(UsernamePasswordCredentials nullCredentials,
+            ViolationDescriptor[] expectedViolations) {
+
+        AuthResource authResource = unAuthenticatedService.getAuthentication();
+
+        assertThrows(() -> authResource.login(nullCredentials.username, nullCredentials.password));
+        assertModelViolationResponse(authResource, expectedViolations);
+    }
+
+    // TODO i don't get it...
 //    @Test(dataProvider = "nullEmptyUsernamePasswordCredentials")
 //    public void testFormLoginWithNoUsernameOrPassword(UsernamePasswordCredentials nullCredentials,
 //            ViolationDescriptor[] expectedViolations) {
@@ -164,46 +176,46 @@ public class AuthResourceIT extends AbstractRestaurantProvidingRestTest {
 //        assertThrows(() -> authResource.login(nullCredentials.username, nullCredentials.password));
 //        assertFormParamViolationResponse(authResource, expectedViolations);
 //    }
-//
-//    @Test
-//    public void testNoAuthorizationHeaderResultsInUnauthorized() {
-//
-//        DeliveriesResource deliveriesResource = unAuthenticatedService.getDeliveries();
-//
-//        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
-//        assertResponseContract(deliveriesResource, UNAUTHORIZED);
-//    }
-//
-//    @Test
-//    public void testWrongAuthPrefixResultsInUnauthorized() {
-//        // use wrong prefix instead of Bearer
-//        assertUnauthorizedOnDeliveryAccessUsingAuthHeader("wrong-prefix " + validToken.getToken());
-//    }
-//
-//    @Test
-//    public void testNoTokenResultsInUnauthorized() {
-//        // Authorization header has correct 'Bearer ' prefix, but empty token
-//        assertUnauthorizedOnDeliveryAccessUsingAuthHeader(BEARER_PREFIX);
-//    }
-//
-//    @Test
-//    public void testWrongTokenFormatResultsInUnauthorized() {
-//        // whatever the token format usually is, adding "foo" breaks it
-//        assertUnauthorizedOnDeliveryAccessUsingAuthHeader(BEARER_PREFIX + validToken.getToken() + "foo");
-//    }
-//
-//    @Test
-//    public void testUnknownUserTokenResultsInUnauthorized() {
-//
-//        // use a token in correct format, only from a user, which is unknown (e.g. deleted or so)
-//        ClientRestaurantService service = buildAuthenticatedService(BEARER_PREFIX +
-//                unknownUserToken.getToken());
-//
-//        DeliveriesResource deliveriesResource = service.getDeliveries();
-//
-//        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
-//        assertResponseContract(deliveriesResource, UNAUTHORIZED);
-//    }
+
+    @Test
+    public void testNoAuthorizationHeaderResultsInUnauthorized() {
+
+        DeliveriesResource deliveriesResource = unAuthenticatedService.getDeliveries();
+
+        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
+        assertResponseContract(deliveriesResource, UNAUTHORIZED);
+    }
+
+    @Test
+    public void testWrongAuthPrefixResultsInUnauthorized() {
+        // use wrong prefix instead of Bearer
+        assertUnauthorizedOnDeliveryAccessUsingAuthHeader("wrong-prefix " + validToken.getToken());
+    }
+
+    @Test
+    public void testNoTokenResultsInUnauthorized() {
+        // Authorization header has correct 'Bearer ' prefix, but empty token
+        assertUnauthorizedOnDeliveryAccessUsingAuthHeader(BEARER_PREFIX);
+    }
+
+    @Test
+    public void testWrongTokenFormatResultsInUnauthorized() {
+        // whatever the token format usually is, adding "foo" breaks it
+        assertUnauthorizedOnDeliveryAccessUsingAuthHeader(BEARER_PREFIX + validToken.getToken() + "foo");
+    }
+
+    @Test
+    public void testUnknownUserTokenResultsInUnauthorized() {
+
+        // use a token in correct format, only from a user, which is unknown (e.g. deleted or so)
+        ClientRestaurantService service = buildAuthenticatedService(BEARER_PREFIX +
+                unknownUserToken.getToken());
+
+        DeliveriesResource deliveriesResource = service.getDeliveries();
+
+        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
+        assertResponseContract(deliveriesResource, UNAUTHORIZED);
+    }
 //
 //    @Test
 //    public void testCurrentUserOk() {
@@ -490,20 +502,20 @@ public class AuthResourceIT extends AbstractRestaurantProvidingRestTest {
 //                .trim();
 //    }
 //
-//    private void assertUnauthorizedOnDeliveryAccessUsingAuthHeader(String authorizationHeader) {
-//        ClientRestaurantService service = buildAuthenticatedService(authorizationHeader);
-//
-//        DeliveriesResource deliveriesResource = service.getDeliveries();
-//
-//        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
-//        assertResponseContract(deliveriesResource, UNAUTHORIZED);
-//    }
-//
-//    private ClientRestaurantService buildAuthenticatedService(String authValue) {
-//        CrsClient<ArbitraryAuthValueAuthenticationContext> client = createClient();
-//        client.getAuthenticationContext().setAuthValue(authValue);
-//        return client.getService();
-//    }
+    private void assertUnauthorizedOnDeliveryAccessUsingAuthHeader(String authorizationHeader) {
+        ClientRestaurantService service = buildAuthenticatedService(authorizationHeader);
+
+        DeliveriesResource deliveriesResource = service.getDeliveries();
+
+        assertThrows(deliveriesResource::getIdsOfDeliveriesInStateNew);
+        assertResponseContract(deliveriesResource, UNAUTHORIZED);
+    }
+
+    private ClientRestaurantService buildAuthenticatedService(String authValue) {
+        CrsClient<ArbitraryAuthValueAuthenticationContext> client = createClient();
+        client.getAuthenticationContext().setAuthValue(authValue);
+        return client.getService();
+    }
 //
 //    private String createValidNewDeliveriesAuthzHeaderValue() {
 //        return CrsHmacAuthenticationScheme.createAuthorizationHeaderValue("GET", URI.create(getTestConfig()

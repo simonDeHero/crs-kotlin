@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.error
+package com.deliveryhero.services.crs.api.error
 
 data class ConstraintViolation(
         val field: String,

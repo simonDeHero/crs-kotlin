@@ -36,12 +36,12 @@ class BearerAuthenticationProvider(
             userDetails = userDetailsService.getForToken(token)
         } catch (e: AuthenticationException) {
             throw e
-        } catch (ex: NotAuthorizedException) {
-            throw BadCredentialsException("The icash service returned 401.", ex)
-        } catch (ex: Exception) {
+        } catch (e: NotAuthorizedException) {
+            throw BadCredentialsException("The icash service returned 401.", e)
+        } catch (e: Exception) {
             val msg = "Error while loading UserDetails."
-            LOG.debug(msg, ex)
-            throw AuthenticationServiceException(msg, ex)
+            LOG.debug(msg, e)
+            throw AuthenticationServiceException(msg, e)
         }
 
         val roles = HashSet<GrantedAuthority>()

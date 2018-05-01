@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs.api.delivery
 
-import com.deliveryhero.services.crs.api.Error
+import com.deliveryhero.services.crs.api.error.Error
 import io.swagger.annotations.*
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity

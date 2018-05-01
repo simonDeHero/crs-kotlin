@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs
 
-import com.deliveryhero.services.crs.api.Error
+import com.deliveryhero.services.crs.api.error.Error
 import com.deliveryhero.services.crs.api.Person
 import com.deliveryhero.services.crs.api.auth.Token
 import com.fasterxml.jackson.databind.ObjectMapper

@@ -1,4 +1,4 @@
-package com.deliveryhero.services.crs.api
+package com.deliveryhero.services.crs.api.error
 
 import io.swagger.annotations.ApiModelProperty
 import java.time.Instant
@@ -30,6 +30,6 @@ data class Error(
         val message: String,
 
         @ApiModelProperty(notes = "The constraint violations that caused this error if available.", readOnly = true,
-                allowEmptyValue = true)
-        val constraintViolations: Set<*>?
+                allowEmptyValue = false)
+        val constraintViolations: Set<ConstraintViolation>
 )
