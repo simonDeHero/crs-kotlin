@@ -32,12 +32,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-        <!--@NotNull, etc. is used for validation by this dependency-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.ninecookies.common</groupId>

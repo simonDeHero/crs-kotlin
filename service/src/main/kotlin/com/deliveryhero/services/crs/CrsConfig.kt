@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.EnableCaching
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
+import org.springframework.context.annotation.*
 import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
@@ -22,6 +20,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
+import org.springframework.web.filter.ShallowEtagHeaderFilter
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
@@ -33,7 +33,10 @@ import java.time.Duration
 @EnableCaching
 @EnableSwagger2
 @EnableWebSecurity
+@PropertySource("classpath:swagger-docu.properties")
 @Configuration
+// https://springfox.github.io/springfox/docs/current/#springfox-support-for-jsr-303
+@Import(value = [BeanValidatorPluginsConfiguration::class])
 class CrsConfig : WebSecurityConfigurerAdapter() {
 
     /*
@@ -42,7 +45,6 @@ class CrsConfig : WebSecurityConfigurerAdapter() {
      */
     @Value("\${cache.restaurants.ttlmins:10}")
     private var restaurantsCacheTtlMins: Long = 0L // ugly...
-
     @Value("\${cache.userDetails.ttlmins:10}")
     private var userDetailsCacheTtlMins: Long = 0L
 
@@ -65,7 +67,9 @@ class CrsConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         val bearerAuthenticationFilter = BearerAuthenticationFilter(authenticationManager(), http401UnauthorizedEntryPoint,
                 authService)
-        http.addFilterBefore(bearerAuthenticationFilter, BasicAuthenticationFilter::class.java)
+        http
+                .addFilterBefore(bearerAuthenticationFilter, BasicAuthenticationFilter::class.java)
+                .addFilterAfter(ShallowEtagHeaderFilter(), BearerAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers(
                         "/api/*/status",

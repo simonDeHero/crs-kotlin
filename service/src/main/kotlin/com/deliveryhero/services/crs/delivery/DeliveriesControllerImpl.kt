@@ -1,8 +1,10 @@
 package com.deliveryhero.services.crs.delivery
 
 import com.deliveryhero.services.crs.api.delivery.DeliveriesController
+import com.deliveryhero.services.crs.api.delivery.DeliveryState
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,4 +22,7 @@ class DeliveriesControllerImpl(private val deliveriesService: DeliveriesService)
             ResponseEntity.ok(newDeliveriesIds)
         }
     }
+
+    override fun changeState(@PathVariable id: String, @RequestBody deliveryState: DeliveryState) =
+            deliveriesService.changeState(id, deliveryState)
 }

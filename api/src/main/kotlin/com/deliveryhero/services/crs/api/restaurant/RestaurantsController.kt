@@ -16,7 +16,6 @@ interface RestaurantsController {
 
     /*
      TODO
-     - etag,
      - service authentication in @ApiImplicitParam, i.e. Authorization "Bearer &#x3C;token&#x3E;" or "CRS-HMAC &#x3C;values&#x3E;"
      */
     @ApiOperation(value = """
@@ -35,7 +34,6 @@ interface RestaurantsController {
 
     /*
      TODO
-     - etag,
      - service authentication in @ApiImplicitParam, i.e. Authorization "Bearer &#x3C;token&#x3E;" or "CRS-HMAC &#x3C;values&#x3E;"
      */
     @ApiOperation(value = "Gets the restaurant data for the given id.")

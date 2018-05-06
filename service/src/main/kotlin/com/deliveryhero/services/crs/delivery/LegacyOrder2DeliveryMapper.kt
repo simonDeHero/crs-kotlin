@@ -231,23 +231,27 @@ object LegacyOrder2DeliveryMapper {
 
 
     private fun buildDeliveryAddress(legacyOrder: LegacyOrder) =
-            DeliveryAddress(
-                    legacyOrder.address.customerAddressId,
-                    legacyOrder.contact?.company,
-                    legacyOrder.address.street,
-                    legacyOrder.address.zip,
-                    legacyOrder.address.city,
-                    legacyOrder.address.suburb,
-                    legacyOrder.address.block,
-                    legacyOrder.address.floor,
-                    legacyOrder.address.door,
-                    legacyOrder.address.building,
-                    legacyOrder.address.info,
-                    legacyOrder.address.latitude,
-                    legacyOrder.address.longitude,
-                    legacyOrder.address.distance,
-                    legacyOrder.address.geocodedManually
-            )
+            if (legacyOrder.address != null) {
+                DeliveryAddress(
+                        legacyOrder.address.customerAddressId,
+                        legacyOrder.contact?.company,
+                        legacyOrder.address.street,
+                        legacyOrder.address.zip,
+                        legacyOrder.address.city,
+                        legacyOrder.address.suburb,
+                        legacyOrder.address.block,
+                        legacyOrder.address.floor,
+                        legacyOrder.address.door,
+                        legacyOrder.address.building,
+                        legacyOrder.address.info,
+                        legacyOrder.address.latitude,
+                        legacyOrder.address.longitude,
+                        legacyOrder.address.distance,
+                        legacyOrder.address.geocodedManually
+                )
+            } else {
+                null
+            }
 
     private fun buildOrderItems(orderItems: List<LegacyOrderItem>?): List<OrderItem> {
         if (orderItems == null) {

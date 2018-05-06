@@ -22,7 +22,7 @@ data class Delivery(
         val expiresAt: Instant,
         val acceptedAt: Instant? = null,
         val customer: Customer,
-        val address: DeliveryAddress,
+        val address: DeliveryAddress?,
         val payment: Payment,
         val comment: String? = null,
         val items: List<OrderItem>,

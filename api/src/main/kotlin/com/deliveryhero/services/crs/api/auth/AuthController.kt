@@ -52,6 +52,7 @@ interface AuthController {
             consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun login(
             @ApiParam(value = "username (email or operator code) password credentials", required = true)
-            @RequestBody usernamePasswordCredentials: UsernamePasswordCredentials
+            @RequestBody
+            usernamePasswordCredentials: UsernamePasswordCredentials
     ): Token
 }
