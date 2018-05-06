@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs.api.restaurant
 
-import com.deliveryhero.services.crs.api.Error
+import com.deliveryhero.services.crs.api.error.Error
 import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

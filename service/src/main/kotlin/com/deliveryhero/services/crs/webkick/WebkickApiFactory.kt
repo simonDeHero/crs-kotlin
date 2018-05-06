@@ -1,6 +1,6 @@
 package com.deliveryhero.services.crs.webkick
 
-import com.deliveryhero.services.crs.auth.RequestToken
+import com.deliveryhero.services.crs.auth.BearerAuthenticationToken
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,6 +11,7 @@ import org.glassfish.jersey.client.ClientConfig
 import org.glassfish.jersey.client.ClientProperties
 import org.glassfish.jersey.client.proxy.WebResourceFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.ClientRequestFilter
@@ -18,7 +19,7 @@ import javax.ws.rs.core.Cookie
 import javax.ws.rs.core.HttpHeaders
 
 @Service
-class WebkickApiFactory(@Value("\${crs.webkick.domain}") private var webkickDomain: String) {
+class WebkickApiFactory(@Value("\${crs.webkick.domain}") private val webkickDomain: String) {
 
     lateinit var operatorApi: WebkickOperatorApi
 
@@ -28,10 +29,15 @@ class WebkickApiFactory(@Value("\${crs.webkick.domain}") private var webkickDoma
 
     private fun createOperatorApi(clientConfig: ClientConfig): WebkickOperatorApi =
             WebResourceFactory.newResource(WebkickOperatorApi::class.java,
-                    ClientBuilder.newClient(clientConfig).target(webkickDomain)
+                    ClientBuilder.newClient(clientConfig)
+                            .target(webkickDomain)
                             .register(ClientRequestFilter {
-                                val sessionCookie = Cookie(WebkickOperatorApi.COOKIE_KEY, RequestToken.get())
-                                it.headers.add(HttpHeaders.COOKIE, sessionCookie)
+                                // don't use UserDetailsService as this would create a cycle!
+                                val authentication = SecurityContextHolder.getContext().getAuthentication()
+                                if (authentication is BearerAuthenticationToken) {
+                                    val sessionCookie = Cookie(WebkickOperatorApi.COOKIE_KEY, authentication.token)
+                                    it.headers.add(HttpHeaders.COOKIE, sessionCookie)
+                                }
                             }))
 
     private fun createClientConfig(): ClientConfig {

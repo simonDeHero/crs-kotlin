@@ -1,9 +1,8 @@
 package com.deliveryhero.services.crs
 
-import com.deliveryhero.services.crs.api.Error
+import com.deliveryhero.services.crs.api.error.Error
 import com.deliveryhero.services.crs.api.Person
 import com.deliveryhero.services.crs.api.auth.Token
-import com.deliveryhero.services.crs.auth.TokenFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
@@ -41,7 +41,7 @@ class RestaurantsControllerMockMvcTest {
     @Before
     fun setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(this.context)
-                .addFilters<DefaultMockMvcBuilder>(TokenFilter()).build()
+                .apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
         // https://github.com/FasterXML/jackson-module-kotlin !!!
         objectMapper = jacksonObjectMapper().registerModules(Jdk8Module(), JavaTimeModule())
     }

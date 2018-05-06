@@ -1,17 +1,21 @@
 package com.deliveryhero.services.crs.restaurant
 
-import com.deliveryhero.services.crs.auth.RequestToken
+import com.deliveryhero.services.crs.auth.AuthService
 import org.springframework.cache.interceptor.KeyGenerator
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
 
 @Component
-class RestaurantsCacheKeyGenerator: KeyGenerator {
+class RestaurantsCacheKeyGenerator(private val authService: AuthService) : KeyGenerator {
 
     companion object {
         const val VERSION = "v1"
     }
 
-    // do NOT call, when not authenticated, as there is no token then
-    override fun generate(target: Any, method: Method, vararg params: Any?) = VERSION + ":" + RequestToken.get()
+    override fun generate(target: Any, method: Method, vararg params: Any?) =
+            VERSION + ":" + if (params.size == 1 && params[0] != null) {
+                params[0]
+            } else {
+                authService.getUserDetails().token
+            }
 }
