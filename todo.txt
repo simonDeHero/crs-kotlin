@@ -34,3 +34,9 @@ which may not be the case in production, e.g. delivery.orderitem.remoteCode
 - add javadoc everywhere
 
 - complete REST docu
+
+- filters
+    - request/response logger
+        - except auth requests
+        - only /api/** (no docu requests!)
+        - configure how much payload to log

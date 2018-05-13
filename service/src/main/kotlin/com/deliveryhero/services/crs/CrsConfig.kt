@@ -1,6 +1,8 @@
 package com.deliveryhero.services.crs
 
 import com.deliveryhero.services.crs.auth.*
+import com.deliveryhero.services.crs.logging.RequestIdFilter
+import com.deliveryhero.services.crs.logging.StubLoggingFilter
 import com.deliveryhero.services.legacy.webkick.api.LegacyRestaurantInfo
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -68,8 +70,10 @@ class CrsConfig : WebSecurityConfigurerAdapter() {
         val bearerAuthenticationFilter = BearerAuthenticationFilter(authenticationManager(), http401UnauthorizedEntryPoint,
                 authService)
         http
+                .addFilterBefore(RequestIdFilter, BasicAuthenticationFilter::class.java)
+                .addFilterBefore(StubLoggingFilter(), BasicAuthenticationFilter::class.java)
                 .addFilterBefore(bearerAuthenticationFilter, BasicAuthenticationFilter::class.java)
-                .addFilterAfter(ShallowEtagHeaderFilter(), BearerAuthenticationFilter::class.java)
+                .addFilterBefore(ShallowEtagHeaderFilter(), BearerAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers(
                         "/api/*/status",
