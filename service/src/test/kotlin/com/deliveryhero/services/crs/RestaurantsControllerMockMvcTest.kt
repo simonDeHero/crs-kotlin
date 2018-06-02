@@ -47,7 +47,7 @@ class RestaurantsControllerMockMvcTest {
     }
 
     @Test
-    fun testLoginAndGetRestaurants() {
+    fun `login and get restaurants`() {
 
         val tokenResponse = mvc.perform(MockMvcRequestBuilders.post("/api/1/auth/form")
                 .accept(MediaType.APPLICATION_JSON)

@@ -38,5 +38,5 @@ which may not be the case in production, e.g. delivery.orderitem.remoteCode
 - filters
     - request/response logger
         - except auth requests
-        - only /api/** (no docu requests!)
+        - only /api/** (no docu req)
         - configure how much payload to log
