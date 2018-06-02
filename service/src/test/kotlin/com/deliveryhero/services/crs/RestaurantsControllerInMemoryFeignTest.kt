@@ -4,8 +4,8 @@ import com.deliveryhero.services.crs.api.auth.AuthController
 import com.deliveryhero.services.crs.api.restaurant.RestaurantsController
 import com.deliveryhero.services.crs.util.FeignAuthInterceptor
 import com.deliveryhero.services.crs.util.RequestToken
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,9 +14,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.context.annotation.Bean
 import org.springframework.test.context.TestPropertySource
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestPropertySource("classpath:application-test.properties", properties = ["server.port=\${crs.port}"])
 @EnableFeignClients

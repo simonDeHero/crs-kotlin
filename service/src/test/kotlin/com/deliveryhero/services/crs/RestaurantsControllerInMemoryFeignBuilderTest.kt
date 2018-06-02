@@ -8,20 +8,20 @@ import feign.Client
 import feign.Contract
 import feign.codec.Decoder
 import feign.codec.Encoder
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
-import org.springframework.test.context.junit4.SpringRunner
 import feign.Feign
-import org.junit.Ignore
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.cloud.openfeign.FeignClientsConfiguration
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestPropertySource("classpath:application-test.properties", properties = ["server.port=\${crs.port}"])
 @Import(FeignClientsConfiguration::class)
@@ -41,8 +41,7 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
     @Autowired private lateinit var client: Client
     @Autowired private lateinit var contract: Contract
 
-    // for @BeforeClass, see https://stackoverflow.com/questions/35554076/how-do-i-manage-unit-test-resources-in-kotlin-such-as-starting-stopping-a-datab
-    @Before
+    @BeforeAll
     fun setupFeignClients() {
 
         val builder = Feign.builder().client(client)
@@ -56,7 +55,7 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
                 .target<RestaurantsController>(RestaurantsController::class.java, url + ":" + port)
     }
 
-    @Ignore // does not work due to error below. how to "exclude" ribbon's loadbalancer client?
+    @Disabled // does not work due to error below. how to "exclude" ribbon's loadbalancer client?
     @Test
     fun testLoginAndGetRestaurants() {
 

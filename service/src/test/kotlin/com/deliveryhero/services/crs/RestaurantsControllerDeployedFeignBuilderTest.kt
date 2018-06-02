@@ -8,19 +8,19 @@ import feign.Client
 import feign.Contract
 import feign.codec.Decoder
 import feign.codec.Encoder
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.test.context.TestPropertySource
-import org.springframework.test.context.junit4.SpringRunner
 import feign.Feign
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.cloud.openfeign.FeignClientsConfiguration
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @TestPropertySource("classpath:application-test.properties")
 @ContextConfiguration(classes = [FeignClientsConfiguration::class])
 /*
@@ -46,7 +46,7 @@ class RestaurantsControllerDeployedFeignBuilderTest {
     private var client: Client = Client.Default(null, null)
     @Autowired private lateinit var contract: Contract
 
-    @Before
+    @BeforeAll
     fun setupFeignClients() {
 
         val builder = Feign.builder().client(client)
