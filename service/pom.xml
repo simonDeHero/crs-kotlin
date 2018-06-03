@@ -107,17 +107,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <!-- see com.deliveryhero.services.crs.RestaurantsControllerInMemoryFeignBuilderTest-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>-->
-                    <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>spring-cloud-netflix-ribbon</artifactId>-->
-                    <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
         <dependency>

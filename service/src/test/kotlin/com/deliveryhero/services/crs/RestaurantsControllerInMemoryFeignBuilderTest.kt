@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import feign.Feign
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.cloud.openfeign.FeignClientsConfiguration
@@ -38,28 +37,28 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
 
     @Autowired private lateinit var decoder: Decoder
     @Autowired private lateinit var encoder: Encoder
-    @Autowired private lateinit var client: Client
     @Autowired private lateinit var contract: Contract
 
     @BeforeAll
     fun setupFeignClients() {
 
-        val builder = Feign.builder().client(client)
+        /*
+         explicitly use the default client as otherwise the Ribbon LoadBalancerFeignClient would be used, which needs
+         more configuration
+         */
+        val builder = Feign.builder().client(Client.Default(null, null))
                 .encoder(encoder)
                 .decoder(decoder)
                 .contract(contract)
 
-        authController = builder.target<AuthController>(AuthController::class.java, url + ":" + port)
+        authController = builder.target<AuthController>(AuthController::class.java,
+                url + ":" + port + "/crs/" + AuthController.PATH)
         restaurantsController = builder
                 .requestInterceptor(FeignAuthInterceptor())
-                .target<RestaurantsController>(RestaurantsController::class.java, url + ":" + port)
+                .target<RestaurantsController>(RestaurantsController::class.java,
+                        url + ":" + port + "/crs/" + RestaurantsController.PATH)
     }
 
-    /*
-    does not work as ribbon is used, which wants a URL for the name "localhost". i cannot exclude dependencies
-    as then no feign client is available
-     */
-    @Disabled
     @Test
     fun testLoginAndGetRestaurants() {
 

@@ -43,13 +43,16 @@ class RestaurantsControllerDeployedFeignBuilderTest {
 
     @Autowired private lateinit var decoder: Decoder
     @Autowired private lateinit var encoder: Encoder
-    private var client: Client = Client.Default(null, null)
     @Autowired private lateinit var contract: Contract
 
     @BeforeAll
     fun setupFeignClients() {
 
-        val builder = Feign.builder().client(client)
+        /*
+         explicitly use the default client as otherwise the Ribbon LoadBalancerFeignClient would be used, which needs
+         more configuration
+         */
+        val builder = Feign.builder().client(Client.Default(null, null))
                 .encoder(encoder)
                 .decoder(decoder)
                 .contract(contract)
