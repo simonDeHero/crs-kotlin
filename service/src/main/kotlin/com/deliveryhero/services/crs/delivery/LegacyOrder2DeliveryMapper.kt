@@ -155,7 +155,7 @@ object LegacyOrder2DeliveryMapper {
 
     private fun buildTransport(legacyOrder: LegacyOrder, legacyOrderDetails: LegacyOrderDetails?): Transport {
 
-        var transportType: TransportType? = null;
+        var transportType: TransportType? = null
 
         if (legacyOrder.dispatchState != null && legacyOrder.dispatchState == LegacyDispatchStateType.PICKUP) {
             transportType = TransportType.PICKUP_CUSTOMER
@@ -271,7 +271,7 @@ object LegacyOrder2DeliveryMapper {
                     items.add(orderItem)
                 }
             })
-            return items;
+            return items
         }
     }
 
@@ -311,7 +311,7 @@ object LegacyOrder2DeliveryMapper {
         if (legacyOrder.includedTaxes != null) {
             taxes.addAll(convertTaxes(legacyOrder.includedTaxes, true))
         }
-        return taxes;
+        return taxes
     }
 
     private fun convertTaxes(legacyTaxes: List<LegacyOrderTax>, isIncludedInPrice: Boolean) =

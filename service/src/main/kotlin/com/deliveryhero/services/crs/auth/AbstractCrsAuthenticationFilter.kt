@@ -27,8 +27,7 @@ import javax.ws.rs.core.HttpHeaders
 abstract class AbstractCrsAuthenticationFilter(
         authenticationScheme: String,
         authenticationManager: AuthenticationManager,
-        unauthorizedEntryPoint: Http401UnauthorizedEntryPoint,
-        private val authService: AuthService
+        unauthorizedEntryPoint: Http401UnauthorizedEntryPoint
 ) : AbstractAuthenticationProcessingFilter(createRequestMatcher(authenticationScheme)) {
 
     private var authenticationScheme =

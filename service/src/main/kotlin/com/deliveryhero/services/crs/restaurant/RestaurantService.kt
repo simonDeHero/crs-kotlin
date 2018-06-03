@@ -16,7 +16,7 @@ class RestaurantService(webkickApiFactory: WebkickApiFactory) {
     @Cacheable(value = ["restaurants"], keyGenerator = "restaurantsCacheKeyGenerator", cacheManager = "restaurantsCacheManager")
     fun getAll(token: String?): List<LegacyRestaurantInfo> {
 
-        val legacyRestaurantInfo = operatorApi.getRestaurantInfo(token);
+        val legacyRestaurantInfo = operatorApi.getRestaurantInfo(token)
         if (legacyRestaurantInfo == null
                 || legacyRestaurantInfo.restaurant == null
                 || legacyRestaurantInfo.restaurant.id == null) {

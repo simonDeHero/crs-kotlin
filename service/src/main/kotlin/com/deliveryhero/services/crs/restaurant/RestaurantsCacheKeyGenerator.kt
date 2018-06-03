@@ -13,7 +13,7 @@ class RestaurantsCacheKeyGenerator(private val authService: AuthService) : KeyGe
     }
 
     override fun generate(target: Any, method: Method, vararg params: Any?) =
-            VERSION + ":" + if (params.size == 1 && params[0] != null) {
+            "$VERSION:" + if (params.size == 1 && params[0] != null) {
                 params[0]
             } else {
                 authService.getUserDetails().token

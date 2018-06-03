@@ -28,8 +28,8 @@ class StubLoggingFilter : OncePerRequestFilter() {
     }
 
     @Throws(ServletException::class, IOException::class)
-    protected fun doFilterWrapped(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper,
-                                  filterChain: FilterChain) {
+    private fun doFilterWrapped(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper,
+                                filterChain: FilterChain) {
         try {
             beforeRequest(request, response)
             filterChain.doFilter(request, response)
@@ -39,13 +39,13 @@ class StubLoggingFilter : OncePerRequestFilter() {
         }
     }
 
-    protected fun beforeRequest(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper) {
+    private fun beforeRequest(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper) {
         if (LOGGER.isInfoEnabled) {
             logRequestHeader(request, request.remoteAddr + "|>")
         }
     }
 
-    protected fun afterRequest(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper) {
+    private fun afterRequest(request: ContentCachingRequestWrapper, response: ContentCachingResponseWrapper) {
         if (LOGGER.isInfoEnabled) {
             logRequestBody(request, request.remoteAddr + "|>")
             logResponse(response, request.remoteAddr + "|<")

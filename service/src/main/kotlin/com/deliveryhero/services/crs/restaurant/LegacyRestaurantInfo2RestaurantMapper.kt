@@ -16,7 +16,8 @@ object LegacyRestaurantInfo2RestaurantMapper {
                 if (legacyRestaurantInfo.contractPlan[LegacyContractPlanOption.TRANSPORT.name] != null) 1 else 0
 
         val restaurant = legacyRestaurantInfo.restaurant
-        val platformRestaurants = restaurant.deliveryPlatformRestaurants?.stream()?.map { map(it) }?.collect(Collectors.toList())
+        val platformRestaurants = restaurant.deliveryPlatformRestaurants?.stream()
+                ?.map { map(it) }?.collect(Collectors.toList())
 
         // TODO how to do this with stream?
         val featureFlags = HashMap<String, Boolean>()

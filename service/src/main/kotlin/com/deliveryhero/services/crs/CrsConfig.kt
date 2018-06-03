@@ -54,21 +54,18 @@ class CrsConfig : WebSecurityConfigurerAdapter() {
     private lateinit var bearerAuthenticationProvider: BearerAuthenticationProvider
     @Autowired
     private lateinit var http401UnauthorizedEntryPoint: Http401UnauthorizedEntryPoint
-    @Autowired
-    private lateinit var authService: AuthService
 
     @Bean
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
 
-    override fun configure(authenticationManagerBuilder: AuthenticationManagerBuilder?) {
-        authenticationManagerBuilder!!.authenticationProvider(bearerAuthenticationProvider)
+    override fun configure(authenticationManagerBuilder: AuthenticationManagerBuilder) {
+        authenticationManagerBuilder.authenticationProvider(bearerAuthenticationProvider)
     }
 
     override fun configure(http: HttpSecurity) {
-        val bearerAuthenticationFilter = BearerAuthenticationFilter(authenticationManager(), http401UnauthorizedEntryPoint,
-                authService)
+        val bearerAuthenticationFilter = BearerAuthenticationFilter(authenticationManager(), http401UnauthorizedEntryPoint)
         http
                 .addFilterBefore(RequestIdFilter, BasicAuthenticationFilter::class.java)
                 .addFilterBefore(StubLoggingFilter(), BasicAuthenticationFilter::class.java)

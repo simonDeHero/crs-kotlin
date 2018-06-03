@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class AuthService(webkickApiFactory: WebkickApiFactory) {
 
     companion object {
-        private const val SESSION_COOKIE: String = "SESSION9C"
+        private const val SESSION_COOKIE = "SESSION9C"
     }
 
     private var operatorApi: WebkickOperatorApi = webkickApiFactory.operatorApi

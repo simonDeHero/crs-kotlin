@@ -11,7 +11,7 @@ enum class Role(val roleName: String) {
     }
 
     object Constants {
-        private val PREFIX = "ROLE_"
+        private const val PREFIX = "ROLE_"
         val ADMIN = PREFIX + "ADMIN"
         val SERVICE = PREFIX + "SERVICE"
         val RESTAURANT = PREFIX + "RESTAURANT"

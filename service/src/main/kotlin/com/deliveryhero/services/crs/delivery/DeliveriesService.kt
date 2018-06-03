@@ -90,13 +90,12 @@ class DeliveriesService(webkickApiFactory: WebkickApiFactory) {
         }
     }
 
-    private fun assertUUIDOrNotFoundException(id: String) {
-        try {
-            UUID.fromString(id)
-        } catch (e: IllegalArgumentException) {
-            throw NotFoundException()
-        }
-    }
+    private fun assertUUIDOrNotFoundException(id: String) =
+            try {
+                UUID.fromString(id)
+            } catch (e: IllegalArgumentException) {
+                throw NotFoundException()
+            }
 
     private fun accept(deliveryId: String, deliveryState: DeliveryState): Delivery {
 
