@@ -7,6 +7,7 @@ import com.deliveryhero.services.legacy.webkick.api.LegacyRestaurantInfo
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.*
 import org.springframework.data.redis.cache.RedisCacheConfiguration
@@ -39,6 +40,7 @@ import java.time.Duration
 @Configuration
 // https://springfox.github.io/springfox/docs/current/#springfox-support-for-jsr-303
 @Import(value = [BeanValidatorPluginsConfiguration::class])
+@EnableConfigurationProperties(CrsProperties::class)
 class CrsConfig : WebSecurityConfigurerAdapter() {
 
     /*

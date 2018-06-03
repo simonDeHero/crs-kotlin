@@ -10,7 +10,7 @@ https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file
  */
 @SpringBootApplication
-class CrsApplication: SpringBootServletInitializer() {
+class CrsApplication : SpringBootServletInitializer() {
 
     override fun configure(builder: SpringApplicationBuilder?): SpringApplicationBuilder? {
         return builder?.sources(CrsApplication::class.java)

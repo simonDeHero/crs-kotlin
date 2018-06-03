@@ -1,5 +1,6 @@
 package com.deliveryhero.services.crs.webkick
 
+import com.deliveryhero.services.crs.CrsProperties
 import com.deliveryhero.services.crs.auth.BearerAuthenticationToken
 import com.deliveryhero.services.legacy.webkick.api.WebkickOperatorApi
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -19,7 +20,8 @@ import javax.ws.rs.core.Cookie
 import javax.ws.rs.core.HttpHeaders
 
 @Service
-class WebkickApiFactory(@Value("\${crs.webkick.domain}") private val webkickDomain: String) {
+//class WebkickApiFactory(@Value("\${crs.webkickDomain}") private val webkickDomain: String) {
+class WebkickApiFactory(val crsProperties: CrsProperties) {
 
     lateinit var operatorApi: WebkickOperatorApi
 
@@ -30,7 +32,7 @@ class WebkickApiFactory(@Value("\${crs.webkick.domain}") private val webkickDoma
     private fun createOperatorApi(clientConfig: ClientConfig): WebkickOperatorApi =
             WebResourceFactory.newResource(WebkickOperatorApi::class.java,
                     ClientBuilder.newClient(clientConfig)
-                            .target(webkickDomain)
+                            .target(crsProperties.webkickDomain)
                             .register(ClientRequestFilter {
                                 // don't use UserDetailsService as this would create a cycle!
                                 val authentication = SecurityContextHolder.getContext().getAuthentication()

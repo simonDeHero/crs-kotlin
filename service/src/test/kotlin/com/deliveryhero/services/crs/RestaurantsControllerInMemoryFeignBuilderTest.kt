@@ -55,17 +55,13 @@ class RestaurantsControllerInMemoryFeignBuilderTest {
                 .target<RestaurantsController>(RestaurantsController::class.java, url + ":" + port)
     }
 
-    @Disabled // does not work due to error below. how to "exclude" ribbon's loadbalancer client?
+    /*
+    does not work as ribbon is used, which wants a URL for the name "localhost". i cannot exclude dependencies
+    as then no feign client is available
+     */
+    @Disabled
     @Test
     fun testLoginAndGetRestaurants() {
-
-        /*
-        at org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient.execute
-        ....
-        Caused by: com.netflix.client.ClientException: Load balancer does not have available server for client: localhost
-            at com.netflix.loadbalancer.LoadBalancerContext.getServerFromLoadBalancer(LoadBalancerContext.java:483)
-            at com.netflix.loadbalancer.reactive.LoadBalancerCommand$1.call(LoadBalancerCommand.java:184)
-         */
 
         val token = authController.login(username, password)
         RequestToken.set(token)

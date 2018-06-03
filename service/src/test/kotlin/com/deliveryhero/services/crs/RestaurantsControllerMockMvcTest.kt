@@ -38,16 +38,14 @@ class RestaurantsControllerMockMvcTest(
     private lateinit var mvc: MockMvc
     private lateinit var objectMapper: ObjectMapper
 
+    private lateinit var testToken: Token
+
     @BeforeAll
     fun setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(this.context)
                 .apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
         // https://github.com/FasterXML/jackson-module-kotlin !!!
         objectMapper = jacksonObjectMapper().registerModules(Jdk8Module(), JavaTimeModule())
-    }
-
-    @Test
-    fun `login and get restaurants`() {
 
         val tokenResponse = mvc.perform(MockMvcRequestBuilders.post("/api/1/auth/form")
                 .accept(MediaType.APPLICATION_JSON)
@@ -56,11 +54,15 @@ class RestaurantsControllerMockMvcTest(
                 .param("password", password))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
-        val token = objectMapper.readValue<Token>(tokenResponse.andReturn().response.contentAsString)
+        testToken = objectMapper.readValue<Token>(tokenResponse.andReturn().response.contentAsString)
+    }
+
+    @Test
+    fun `login and get restaurants`() {
 
         val restaurantsResponse = mvc.perform(MockMvcRequestBuilders.get("/api/1/restaurants")
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + token.token))
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
         println(restaurantsResponse.andReturn().response.contentAsString)
@@ -68,7 +70,7 @@ class RestaurantsControllerMockMvcTest(
         // get cached value
         mvc.perform(MockMvcRequestBuilders.get("/api/1/restaurants")
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + token.token))
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
@@ -85,7 +87,7 @@ class RestaurantsControllerMockMvcTest(
         println("response: $responseBody")
 
         val error = objectMapper.readValue<Error>(responseBody)
-        Assertions.assertEquals("validation-error", error.message)
+        Assertions.assertEquals("Model validation failed.", error.message)
     }
 
     @Test
@@ -96,7 +98,8 @@ class RestaurantsControllerMockMvcTest(
         val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(person)))
+                .content(objectMapper.writeValueAsString(person))
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
         val responseBody = resultActions.andReturn().response.contentAsString
@@ -114,14 +117,15 @@ class RestaurantsControllerMockMvcTest(
         val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""{"age":67}"""))
+                .content("""{"age":67}""")
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
 
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
         val error = objectMapper.readValue<Error>(responseBody)
-        Assertions.assertEquals("validation-error", error.message)
+        Assertions.assertEquals("Model validation failed.", error.message)
     }
 
     @Test
@@ -130,14 +134,15 @@ class RestaurantsControllerMockMvcTest(
         val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""{"name":"simon", "age":67}"""))
+                .content("""{"name":"simon", "age":67}""")
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
 
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
         val error = objectMapper.readValue<Error>(responseBody)
-        Assertions.assertEquals("validation-error", error.message)
+        Assertions.assertEquals("Model validation failed.", error.message)
     }
 
     @Test
@@ -146,13 +151,14 @@ class RestaurantsControllerMockMvcTest(
         val resultActions = mvc.perform(MockMvcRequestBuilders.post("/api/1/person")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""{"name":"simon", "title":"no-dr-:-(", "age":-1}"""))
+                .content("""{"name":"simon", "title":"no-dr-:-(", "age":-1}""")
+                .header("Authorization", "Bearer " + testToken.token))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
 
         val responseBody = resultActions.andReturn().response.contentAsString
         println("response: $responseBody")
 
         val error = objectMapper.readValue<Error>(responseBody)
-        Assertions.assertEquals("validation-error", error.message)
+        Assertions.assertEquals("Model validation failed.", error.message)
     }
 }
