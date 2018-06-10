@@ -5,11 +5,9 @@ import com.deliveryhero.services.crs.api.delivery.DeliveryState
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(DeliveriesController.PATH)
 class DeliveriesControllerImpl(private val deliveriesService: DeliveriesService) : DeliveriesController {
 
     override fun getDeliveryById(@PathVariable id: String) = deliveriesService.getById(id)

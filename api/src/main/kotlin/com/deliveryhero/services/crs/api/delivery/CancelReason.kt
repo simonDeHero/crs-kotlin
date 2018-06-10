@@ -7,5 +7,5 @@ data class CancelReason(
         val isCustom: Boolean = false,
         val comment: String?,
         val time: Instant,
-        val key: RejectReasonType = RejectReasonType.OTHER
+        val key: RejectReasonType?
 )

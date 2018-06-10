@@ -110,7 +110,7 @@ object LegacyOrder2DeliveryMapper {
                     && (legacyOrder.state == LegacyDeliveryStateType.CANCELLED
                             || legacyOrder.state == LegacyDeliveryStateType.CANCELLED_BY_PLATFORM
                             || legacyOrder.state == LegacyDeliveryStateType.CANCELLED_BY_TRANSPORT)) {
-                CancelReason(comment = details.rejectReason, time = details.rejectedTime)
+                CancelReason(comment = details.rejectReason, time = details.rejectedTime, key = null)
             } else {
                 null
             }
@@ -128,7 +128,7 @@ object LegacyOrder2DeliveryMapper {
 
         if (order.state == LegacyDeliveryStateType.NEW) {
             if (order.minimumAcceptTime != null) {
-                acceptTimes = LinkedHashSet()
+                acceptTimes = linkedSetOf()
                 acceptTimes.add(order.minimumAcceptTime)
                 // both minimum and maximum accept time is set for guaranteed delivery
                 if (order.maximumAcceptTime != null) {

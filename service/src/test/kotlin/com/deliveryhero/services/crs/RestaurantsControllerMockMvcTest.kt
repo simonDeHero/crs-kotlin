@@ -54,7 +54,7 @@ class RestaurantsControllerMockMvcTest(
                 .param("password", password))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
-        testToken = objectMapper.readValue<Token>(tokenResponse.andReturn().response.contentAsString)
+        testToken = objectMapper.readValue(tokenResponse.andReturn().response.contentAsString)
     }
 
     @Test
